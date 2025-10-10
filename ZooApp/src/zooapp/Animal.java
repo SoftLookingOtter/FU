@@ -1,3 +1,5 @@
+package zooapp;
+
 abstract class Animal {
     protected String name;
 

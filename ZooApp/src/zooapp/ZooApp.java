@@ -1,3 +1,5 @@
+package zooapp;
+
 import java.util.ArrayList;
 
 public class ZooApp {

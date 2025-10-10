@@ -1,3 +1,5 @@
+package zooapp;
+
 class Eagle extends Animal implements Flyable {
     public Eagle(String name) {
         super(name);

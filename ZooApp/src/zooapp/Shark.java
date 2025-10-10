@@ -1,3 +1,5 @@
+package zooapp;
+
 class Shark extends Animal implements Swimmable {
     public Shark(String name) {
         super(name);

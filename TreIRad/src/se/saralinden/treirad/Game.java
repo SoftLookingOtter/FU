@@ -14,10 +14,12 @@ public class Game {
         System.out.println("🦝 Raccoon Referee: Welcome to Tic-Tac-Toe!");
         System.out.println("Marks: ❌ vs ⭕. Choose cells 1–9. Ctrl+C to quit.");
 
-        Board board = new Board(); // create the board
-        board.print();             // show it once
+        // The game’s 3x3 board data. Passed to Board for printing.
+        String[] gameGrid = { "1","2","3","4","5","6","7","8","9" };
 
-        System.out.print("> "); // prompt for player input
+        Board board = new Board(); // create a Board object
+        board.print(gameGrid); // here we pass the array to print() method in Board class
+
 
         // ...show board, ask names, etc.
     }

@@ -1,7 +1,9 @@
-
 ### IntelliJ project files ###
 .idea/
 *.iml
 
 ### Java build artifacts ###
 *.class
+
+### macOS system files ###
+.DS_Store

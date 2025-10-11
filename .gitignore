@@ -1,0 +1,7 @@
+
+### IntelliJ project files ###
+.idea/
+*.iml
+
+### Java build artifacts ###
+*.class

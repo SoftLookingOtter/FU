@@ -1,13 +1,27 @@
 package se.saralinden.treirad;
 
 public class Board {
+
+    // ANSI colors
+    private static final String RESET = "\u001B[0m";
+    private static final String RED   = "\u001B[31m"; // X
+    private static final String BLUE  = "\u001B[34m"; // O
+    private static final String GRAY  = "\u001B[90m"; // numbers
+
+    // Colorize without mutating data
+    private String colorize(String s) {
+        if ("X".equals(s)) return RED  + "X" + RESET;
+        if ("O".equals(s)) return BLUE + "O" + RESET;
+        return GRAY + s + RESET; // 1–9
+    }
+
     public void print(String[] boardData) {
         System.out.println();
-        System.out.println(" " + boardData[0] + " | " + boardData[1] + " | " + boardData[2]);
-        System.out.println("---+---+---");
-        System.out.println(" " + boardData[3] + " | " + boardData[4] + " | " + boardData[5]);
-        System.out.println("---+---+---");
-        System.out.println(" " + boardData[6] + " | " + boardData[7] + " | " + boardData[8]);
+        System.out.println(" " + colorize(boardData[0]) + " ║ " + colorize(boardData[1]) + " ║ " + colorize(boardData[2]));
+        System.out.println("═══╬═══╬═══");
+        System.out.println(" " + colorize(boardData[3]) + " ║ " + colorize(boardData[4]) + " ║ " + colorize(boardData[5]));
+        System.out.println("═══╬═══╬═══");
+        System.out.println(" " + colorize(boardData[6]) + " ║ " + colorize(boardData[7]) + " ║ " + colorize(boardData[8]));
         System.out.println();
     }
 
@@ -33,9 +47,9 @@ public class Board {
     // 2. Return true if the board is full (no free cells)
     public boolean isDraw(String[] b) { // b = current board state array
         for (int i = 0; i < 9; i++) { // check each cell
-            if (b[i].equals(String.valueOf(i + 1))) return false; // if any cell still shows its number, it's free -> not a draw
+            if (b[i].equals(String.valueOf(i + 1))) return false; // if any cell still shows a number, it's free -> not a draw
         }
-        return true; // inga fria rutor = oavgjort
+        return true; // all cells are filled -> it's a draw
     }
 }
 

@@ -12,7 +12,7 @@ public class Game {
     public void start() {
         System.out.println();
         System.out.println("🦝 Raccoon Referee: Welcome to Tic-Tac-Toe!");
-        System.out.println("Marks: ❌ vs ⭕. Choose cells 1–9. Ctrl+C to quit.");
+        System.out.println("Marks: X vs O. Choose cells 1–9. Ctrl+C to quit.");
 
         // --- Game state ---
 
@@ -22,7 +22,7 @@ public class Game {
 
         Board board = new Board(); // create a Board object
 
-        String current = "❌"; // X starts
+        String current = "X"; // X starts
         while (true) {
             board.print(gameGrid); // print the current board state
             System.out.println("Player " + current + ", pick a cell (1–9):");
@@ -45,7 +45,7 @@ public class Game {
             }
 
             // switch player
-            current = current.equals("❌") ? "⭕" : "❌"; // if current is "X", set to "O", else set to "X"
+            current = current.equals("X") ? "O" : "X"; // if current is "X", set to "O", else set to "X"
         }
     }
 

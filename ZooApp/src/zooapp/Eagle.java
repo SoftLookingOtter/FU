@@ -1,6 +1,6 @@
 package zooapp;
 
-class Eagle extends Animal implements Flyable {
+class Eagle extends Animal implements Flyable { // Eagle ärver från Animal och implementerar Flyable
     public Eagle(String name) {
         super(name);
     }
@@ -16,7 +16,7 @@ class Eagle extends Animal implements Flyable {
     }
 
     @Override
-    public void fly() {
+    public void fly() { // Implementerar flygmetoden från Flyable-interface
         System.out.println("Eagle (" + name + ") flies high in the sky!");
     }
 }

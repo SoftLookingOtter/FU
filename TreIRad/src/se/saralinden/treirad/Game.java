@@ -21,17 +21,35 @@ public class Game {
         String[] gameGrid = { "1","2","3","4","5","6","7","8","9" };
 
         Board board = new Board(); // create a Board object
-        board.print(gameGrid); // here we pass the array to print() method in Board class
 
-        // --- Player X turn ---
-        int cell = readFreeCell1to9(gameGrid); // 2. + 1. // waits until user picks a free cell 1–9
-        placeMark(gameGrid, cell, "X"); // 3. // put X there
+        String current = "X"; // X starts
+        while (true) {
+            board.print(gameGrid); // print the current board state
+            System.out.println("Player " + current + ", pick a cell (1–9):");
 
-        // --- Show the change ---
-        board.print(gameGrid); // show the change
+            int cell = readFreeCell1to9(gameGrid); // read a free cell from user input by calling our helper method below
+            placeMark(gameGrid, cell, current); // place the current player's mark at the chosen cell by calling our helper method below
+
+            // check win
+            if (board.isWin(gameGrid, current)) { // call the isWin method on the board object to check if current player has won (isWin comes from Board.java class so we call it on the board object we created above)
+                board.print(gameGrid);
+                System.out.println("🎉 Player " + current + " wins!");
+                return; // end the game
+            }
+
+            // check draw
+            if (board.isDraw(gameGrid)) {
+                board.print(gameGrid);
+                System.out.println("🤝 It's a draw!");
+                return; // end the game
+            }
+
+            // switch player
+            current = current.equals("X") ? "O" : "X"; // if current is "X", set to "O", else set to "X"
+        }
     }
 
-    // --- Helpers ---
+    // --- HELPERS ---
 
     // --- User input ---
     // 1: read a number 1–9

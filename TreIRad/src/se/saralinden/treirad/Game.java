@@ -64,7 +64,7 @@ public class Game {
     // --- NAME HELPER ---
     private String askNameForMark(String mark) {
         while (true) {
-            System.out.print("Hi " + mark + "! What's your name? (q = quit) ");
+            System.out.print("Hi " + mark + "! What's your name? ");
             String s = in.nextLine().trim(); // trim whitespace
             checkQuit(s);
             if (!s.isEmpty()) return s;                     // if not empty, return the name

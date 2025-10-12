@@ -11,7 +11,7 @@ public class Board {
 
     // ANSI colors
     private static final String RED = "\u001B[31m";
-    private static final String BRIGHTBLUE = "\u001B[94m";
+    private static final String BRIGHT_BLUE = "\u001B[94m";
     private static final String GRAY = "\u001B[90m";
     private static final String BOLD = "\u001B[1m";
     private static final String RESET = "\u001B[0m";
@@ -19,7 +19,7 @@ public class Board {
     // Colorize
     private String colorize(String s) {
         if ("X".equals(s)) return RED + "✖" + RESET; // if s is "X", return red ✖ symbol
-        if ("O".equals(s)) return BOLD + BRIGHTBLUE + "○" + RESET;
+        if ("O".equals(s)) return BOLD + BRIGHT_BLUE + "○" + RESET;
         return GRAY + s + RESET; // "1".."9"
     }
 

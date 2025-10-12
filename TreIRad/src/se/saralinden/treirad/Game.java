@@ -17,10 +17,19 @@ public class Game {
     private String nameX, nameO; // player names for X and O
     private int winsX = 0, winsO = 0, draws = 0;
 
+    // --- QUIT HELPER ---
+    // Type 'q'/'quit'/'exit' anywhere to quit
+    private void checkQuit(String s) {
+        if (s.equalsIgnoreCase("q") || s.equalsIgnoreCase("quit") || s.equalsIgnoreCase("exit")) {
+            System.out.println("Goodbye!");
+            System.exit(0); // terminate the program with inbuilt method System.exit
+        }
+    }
+
     public void start() {
         System.out.println();
         System.out.println("🦝 Raccoon Referee: Welcome to Tic-Tac-Toe!");
-        System.out.println("Marks: X vs O. Choose cells 1–9. Ctrl+C to quit.");
+        System.out.println("Marks: X vs O. Choose cells 1–9. Type 'q' to quit at any time.");
 
         // Ask player names once
         nameX = askNameForMark("X");
@@ -47,8 +56,9 @@ public class Game {
     // --- NAME HELPER ---
     private String askNameForMark(String mark) {
         while (true) {
-            System.out.print("Hi " + mark + "! What's your name? ");
+            System.out.print("Hi " + mark + "! What's your name? (q = quit) ");
             String s = in.nextLine().trim(); // trim whitespace
+            checkQuit(s);
             if (!s.isEmpty()) return s;                     // if not empty, return the name
             System.out.println("That was empty — please try again.");
         }
@@ -63,7 +73,7 @@ public class Game {
         while (true) {
             board.print(gameGrid); // render current grid
             String currentName = "X".equals(current) ? nameX : nameO; // get current player's name
-            System.out.println(currentName + " (" + current + "), your move — pick a cell (1–9):");
+            System.out.println(currentName + " (" + current + "), your move — pick a cell (1–9, q = quit):");
 
             int cell = readFreeCell1to9(gameGrid, currentName); // read a valid, free cell by using helpers below
             placeMark(gameGrid, cell, current); // place the mark on the grid by using helper below
@@ -91,6 +101,7 @@ public class Game {
         while (true) {
             System.out.print("> ");
             String s = in.nextLine().trim();
+            checkQuit(s);
             try {
                 int n = Integer.parseInt(s); // try to parse input as an integer // may throw NumberFormatException if input is not a valid integer
                 if (n >= 1 && n <= 9) return n; // if valid number between 1 and 9 (inclusive), return it

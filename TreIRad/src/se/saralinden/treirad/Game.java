@@ -82,7 +82,7 @@ public class Game {
     private String askNameForMark(String mark) {
         String icon = uiIcon(mark);
         while (true) {
-            System.out.print("Hi " + icon + " (" + mark + ")! What's your name? ");
+            System.out.print("Hi " + icon + "! What's your name? ");
             String s = in.nextLine().trim();
             checkQuit(s);
             if (!s.isEmpty()) return s;

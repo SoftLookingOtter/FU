@@ -2,9 +2,15 @@ package se.saralinden.treirad; // package declaration
 
 /**
  * Stateless board utilities (no data here).
- * - print(String[] boardData): render the 3x3 grid.
- * - isWin(String[] b, String mark): check three-in-a-row for X/O.
- * - isDraw(String[] b): check if no free cells remain.
+ * Responsibilities:
+ * - Render the 3x3 grid.
+ * - Provide win/draw checks for the current board state.
+ * <p>
+ * Helpers in this class:
+ * - print(String[] boardData)     – render the board.
+ * - isWin(String[] b, String mark)– check three-in-a-row for X/O.
+ * - isDraw(String[] b)            – check if no free cells remain.
+ * - colorize(String s)            – map marks/numbers to colored display symbols.
  */
 
 public class Board {
@@ -16,13 +22,16 @@ public class Board {
     private static final String BOLD = "\u001B[1m";
     private static final String RESET = "\u001B[0m";
 
-    // Colorize
+    // --- DISPLAY HELPER ---
+    // Map marks/numbers to colored display symbols.
     private String colorize(String s) {
         if ("X".equals(s)) return RED + "✖" + RESET; // if s is "X", return red ✖ symbol
         if ("O".equals(s)) return BOLD + BRIGHT_BLUE + "○" + RESET;
         return GRAY + s + RESET; // "1".."9"
     }
 
+    // --- RENDERING ---
+    // Print the current 3x3 grid.
     public void print(String[] boardData) {
         System.out.println();
         System.out.println(" " + colorize(boardData[0]) + " ║ " + colorize(boardData[1]) + " ║ " + colorize(boardData[2]));
@@ -34,8 +43,7 @@ public class Board {
     }
 
     // --- GAME LOGIC HELPERS ---
-
-    // 1. Return true if mark ("X" or "O") has a winning line on the board
+    //Return true if mark ("X" or "O") has a winning line on the board
     public boolean isWin(String[] b, String mark) {
         int[][] lines = { // an array of arrays, each with 3 cell indices that form a winning line
                 {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // rows
@@ -51,8 +59,7 @@ public class Board {
         return false; // no winning line found -> return false
     }
 
-
-    // 2. Return true if the board is full (no free cells)
+    // Return true if no free (numbered) cells remain
     public boolean isDraw(String[] b) { // b = current board state array
         for (int i = 0; i < 9; i++) { // check each cell
             if (b[i].equals(String.valueOf(i + 1)))
@@ -61,4 +68,3 @@ public class Board {
         return true; // all cells are filled -> it's a draw
     }
 }
-

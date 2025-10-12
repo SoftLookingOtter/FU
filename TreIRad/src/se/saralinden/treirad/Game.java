@@ -6,11 +6,23 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Game loop.
- * - Owns the game state (grid data) and manages turn order.
- * - Reads validated input and updates the board.
- * - Uses Board to render and to check win/draw.
- * Helpers in this class: askNameForMark(), readCell1to9(who), readFreeCell1to9(grid, who), placeMark().
+ * Game loop & UI controller.
+ * Responsibilities:
+ * - Owns the game state (3x3 grid) and manages turn order.
+ * - Chooses mode (PvP or vs bot), asks player names, and keeps a running scoreboard.
+ * - Reads and validates input, supports 'q' to quit, and applies moves.
+ * - Delegates rendering and win/draw checks to Board.
+ * - In bot mode, selects a random free move for O.
+ * <p>
+ * Helpers in this class:
+ * - askYesNo(prompt)              – ask a y/n question.
+ * - askNameForMark(mark)          – read a non-empty player name.
+ * - readCell1to9(who)             – read a number 1–9.
+ * - readFreeCell1to9(grid, who)   – keep asking until the cell is free.
+ * - placeMark(grid, cell, mark)   – update board state.
+ * - randomFreeCell(grid)          – pick a random free cell (bot).
+ * - uiIcon(mark)                  – display symbol/color for X/O.
+ * - checkQuit(s)                  – exit on q/quit/exit.
  */
 
 public class Game {
@@ -27,20 +39,6 @@ public class Game {
     private String nameX, nameO; // player names for X and O
     private int winsX = 0, winsO = 0, draws = 0;
     private boolean vsBot = false; // play vs bot?
-
-    // --- QUIT HELPER ---
-    // Type 'q'/'quit'/'exit' anywhere to quit
-    private void checkQuit(String s) {
-        if (s.equalsIgnoreCase("q") || s.equalsIgnoreCase("quit") || s.equalsIgnoreCase("exit")) {
-            System.out.println("Goodbye!");
-            System.exit(0); // terminate the program with inbuilt method System.exit
-        }
-    }
-
-    // Map logic mark -> display icon (keep logic X/O)
-    private String uiIcon(String mark) {
-        return "X".equals(mark) ? (RED + "✖" + RESET) : (BOLD + BRIGHT_BLUE + "○" + RESET);
-    }
 
     public void start() {
         // --- Welcome & instructions ---
@@ -85,19 +83,6 @@ public class Game {
         }
     }
 
-    // --- NAME HELPER ---
-    private String askNameForMark(String mark) {
-        String icon = uiIcon(mark);
-        while (true) {
-            System.out.println();
-            System.out.print("Hi " + icon + "! What's your name? ");
-            String s = in.nextLine().trim();
-            checkQuit(s);
-            if (!s.isEmpty()) return s;
-            System.out.println("That was empty — please try again.");
-        }
-    }
-
     // --- One game ---
     private String playOneGame() {
         String[] gameGrid = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}; // initial "empty" grid
@@ -114,6 +99,8 @@ public class Game {
                 // Bot spelar som O: välj slumpmässig ledig ruta
                 cell = randomFreeCell(gameGrid);
                 System.out.println(currentName + " (" + ui + ") chooses: " + cell);
+                System.out.println();
+
             } else {
                 System.out.println(currentName + " (" + ui + "), your move — pick a cell (1–9, q=quit):");
                 cell = readFreeCell1to9(gameGrid, currentName);
@@ -138,6 +125,49 @@ public class Game {
     }
 
     // --- HELPERS: INPUT & STATE UPDATES ---
+
+    // --- UI HELPER ---
+    // Map logic mark -> display icon (keep logic X/O)
+    private String uiIcon(String mark) {
+        return "X".equals(mark) ? (RED + "✖" + RESET) : (BOLD + BRIGHT_BLUE + "○" + RESET);
+    }
+
+    // --- QUIT HELPER ---
+    // Type 'q'/'quit'/'exit' anywhere to quit
+    private void checkQuit(String s) {
+        if (s.equalsIgnoreCase("q") || s.equalsIgnoreCase("quit") || s.equalsIgnoreCase("exit")) {
+            System.out.println("Goodbye!");
+            System.exit(0); // terminate the program with inbuilt method System.exit
+        }
+    }
+
+    // --- NAME HELPER ---
+    private String askNameForMark(String mark) {
+        String icon = uiIcon(mark);
+        while (true) {
+            System.out.println();
+            System.out.print("Hi " + icon + "! What's your name? ");
+            String s = in.nextLine().trim();
+            checkQuit(s);
+            if (!s.isEmpty()) return s;
+            System.out.println("That was empty — please try again.");
+        }
+    }
+
+    // --- YES/NO HELPER ---
+    private boolean askYesNo(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String s = in.nextLine().trim().toLowerCase();
+            checkQuit(s);
+            if (s.equals("y") || s.equals("yes")) return true;
+            if (s.equals("n") || s.equals("no")) return false;
+            System.out.println("Please answer y/yes or n/no.");
+            System.out.println();
+        }
+    }
+
+    // --- INPUT HELPERS ---
 
     // Read 1–9
     private int readCell1to9(String who) {
@@ -164,6 +194,7 @@ public class Game {
         }
     }
 
+    // --- BOT HELPER ---
     // Random free cell number 1..9
     private int randomFreeCell(String[] grid) {
         List<Integer> free = new ArrayList<>();
@@ -175,22 +206,9 @@ public class Game {
         return free.get(rng.nextInt(free.size()));
     }
 
-
+    // --- STATE UPDATE ---
     // Place a mark ("X" or "O") at a 1–9 cell
     private void placeMark(String[] grid, int cell1to9, String mark) {
         grid[cell1to9 - 1] = mark; // mutates the provided array to place the mark
-    }
-
-    // --- YES/NO HELPER ---
-    private boolean askYesNo(String prompt) {
-        while (true) {
-            System.out.print(prompt);
-            String s = in.nextLine().trim().toLowerCase();
-            checkQuit(s);
-            if (s.equals("y") || s.equals("yes")) return true;
-            if (s.equals("n") || s.equals("no")) return false;
-            System.out.println("Please answer y/yes or n/no.");
-            System.out.println();
-        }
     }
 }

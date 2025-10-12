@@ -6,7 +6,7 @@ package se.saralinden.treirad; // package declaration
  */
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) { // static belongs to the class, not instances
         new Game().start();
         // new Game() creates a new Game object
         // .start() calls the start method on that object

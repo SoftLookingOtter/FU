@@ -13,7 +13,9 @@ import java.util.Scanner;
 public class Game {
 
     private final Scanner in = new Scanner(System.in); // final to prevent reassignment to another Scanner
+
     private String nameX, nameO; // player names for X and O
+    private int winsX = 0, winsO = 0, draws = 0;
 
     public void start() {
         System.out.println();
@@ -26,7 +28,18 @@ public class Game {
 
         //noinspection InfiniteLoopStatement
         while (true) { // auto-restart after each match
-            playOneGame(); // play one match
+            String result = playOneGame(); // "X", "O" eller "D"
+
+            if ("X".equals(result)) winsX++;
+            else if ("O".equals(result)) winsO++;
+            else draws++;
+
+            // --- Scoreboard ---
+            System.out.println("\nScoreboard:");
+            System.out.println(nameX + " (X): " + winsX);
+            System.out.println(nameO + " (O): " + winsO);
+            System.out.println("Draws: " + draws);
+
             System.out.println("Starting a new game...\n");
         }
     }
@@ -42,14 +55,14 @@ public class Game {
     }
 
     // --- One game ---
-    private void playOneGame() {
+    private String playOneGame() {
         String[] gameGrid = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}; // initial "empty" grid
         Board board = new Board(); // create a Board instance to use its methods
 
         String current = "X"; // X starts
         while (true) {
             board.print(gameGrid); // render current grid
-            String currentName = current.equals("X") ? nameX : nameO; // get current player's name
+            String currentName = "X".equals(current) ? nameX : nameO; // get current player's name
             System.out.println(currentName + " (" + current + "), your move — pick a cell (1–9):");
 
             int cell = readFreeCell1to9(gameGrid, currentName); // read a valid, free cell by using helpers below
@@ -58,13 +71,13 @@ public class Game {
             if (board.isWin(gameGrid, current)) {
                 board.print(gameGrid);
                 System.out.println("🎉 " + currentName + " (" + current + ") wins!");
-                return;
+                return current; // return "X" or "O"
             }
 
             if (board.isDraw(gameGrid)) {
                 board.print(gameGrid);
                 System.out.println("🤝 It's a draw!");
-                return;
+                return "D";
             }
 
             current = "X".equals(current) ? "O" : "X"; // switch player

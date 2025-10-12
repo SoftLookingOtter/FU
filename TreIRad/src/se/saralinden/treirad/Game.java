@@ -1,5 +1,8 @@
 package se.saralinden.treirad;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -19,6 +22,7 @@ public class Game {
     private static final String RESET = "\u001B[0m";
 
     private final Scanner in = new Scanner(System.in); // final to prevent reassignment to another Scanner
+    private final Random rng = new Random();
 
     private String nameX, nameO; // player names for X and O
     private int winsX = 0, winsO = 0, draws = 0;
@@ -98,21 +102,29 @@ public class Game {
     private String playOneGame() {
         String[] gameGrid = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}; // initial "empty" grid
         Board board = new Board(); // create a Board instance to use its methods
-
         String current = "X"; // X starts
-        while (true) {
-            board.print(gameGrid); // render current grid
-            String currentName = "X".equals(current) ? nameX : nameO; // get current player's name
-            String ui = uiIcon(current); // get current player's icon
-            System.out.println(currentName + " (" + ui + "), your move — pick a cell (1–9, q=quit):");
 
-            int cell = readFreeCell1to9(gameGrid, currentName); // read a valid, free cell by using helpers below
-            placeMark(gameGrid, cell, current); // place the mark on the grid by using helper below
+        while (true) {
+            board.print(gameGrid);
+            String currentName = "X".equals(current) ? nameX : nameO;
+            String ui = uiIcon(current);
+
+            int cell;
+            if (vsBot && "O".equals(current)) {
+                // Bot spelar som O: välj slumpmässig ledig ruta
+                cell = randomFreeCell(gameGrid);
+                System.out.println(currentName + " (" + ui + ") chooses: " + cell);
+            } else {
+                System.out.println(currentName + " (" + ui + "), your move — pick a cell (1–9, q=quit):");
+                cell = readFreeCell1to9(gameGrid, currentName);
+            }
+
+            placeMark(gameGrid, cell, current);
 
             if (board.isWin(gameGrid, current)) {
                 board.print(gameGrid);
                 System.out.println("🎉 " + currentName + " (" + ui + ") wins!");
-                return current; // return "X" or "O"
+                return current;
             }
 
             if (board.isDraw(gameGrid)) {
@@ -120,9 +132,9 @@ public class Game {
                 System.out.println("🤝 It's a draw!");
                 return "D";
             }
-
-            current = "X".equals(current) ? "O" : "X"; // switch player
+            current = "X".equals(current) ? "O" : "X";
         }
+
     }
 
     // --- HELPERS: INPUT & STATE UPDATES ---
@@ -151,6 +163,18 @@ public class Game {
             System.out.println("That cell is taken, " + who + ". Pick a free one."); // otherwise, show message and reprompt
         }
     }
+
+    // Random free cell number 1..9
+    private int randomFreeCell(String[] grid) {
+        List<Integer> free = new ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            if (grid[i].equals(String.valueOf(i + 1))) {
+                free.add(i + 1);
+            }
+        }
+        return free.get(rng.nextInt(free.size()));
+    }
+
 
     // Place a mark ("X" or "O") at a 1–9 cell
     private void placeMark(String[] grid, int cell1to9, String mark) {

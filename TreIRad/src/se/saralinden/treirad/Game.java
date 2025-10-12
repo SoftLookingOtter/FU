@@ -14,9 +14,12 @@ public class Game {
 
     // ANSI colors
     private static final String RED = "\u001B[31m";
-    private static final String BLUE = "\u001B[34m";
+    private static final String BRIGHTBLUE = "\u001B[94m";
+    private static final String BOLD = "\u001B[1m";
     private static final String RESET = "\u001B[0m";
+
     private final Scanner in = new Scanner(System.in); // final to prevent reassignment to another Scanner
+
     private String nameX, nameO; // player names for X and O
     private int winsX = 0, winsO = 0, draws = 0;
 
@@ -31,7 +34,7 @@ public class Game {
 
     // Map logic mark -> display icon (keep logic X/O)
     private String uiIcon(String mark) {
-        return "X".equals(mark) ? (RED + "✖" + RESET) : (BLUE + "○" + RESET);
+        return "X".equals(mark) ? (RED + "✖" + RESET) : (BOLD + BRIGHTBLUE + "○" + RESET);
     }
 
     public void start() {

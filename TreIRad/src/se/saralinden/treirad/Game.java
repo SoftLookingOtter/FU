@@ -33,7 +33,7 @@ public class Game {
     private static final String BOLD = "\u001B[1m";
     private static final String RESET = "\u001B[0m";
 
-    private final Scanner in = new Scanner(System.in); // final to prevent reassignment to another Scanner
+    private final Scanner in = new Scanner(System.in); // final to prevent reassignment to another Scanner later
     private final Random rng = new Random();
 
     private String nameX, nameO; // player names for X and O
@@ -96,7 +96,7 @@ public class Game {
 
             int cell;
             if (vsBot && "O".equals(current)) {
-                // Bot spelar som O: välj slumpmässig ledig ruta
+                // if bot's turn, pick a random free cell
                 cell = randomFreeCell(gameGrid);
                 System.out.println(currentName + " (" + ui + ") chooses: " + cell);
                 System.out.println();
@@ -197,13 +197,13 @@ public class Game {
     // --- BOT HELPER ---
     // Random free cell number 1..9
     private int randomFreeCell(String[] grid) {
-        List<Integer> free = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            if (grid[i].equals(String.valueOf(i + 1))) {
-                free.add(i + 1);
+        List<Integer> free = new ArrayList<>(); // list of free cell numbers
+        for (int i = 0; i < 9; i++) { // check each cell
+            if (grid[i].equals(String.valueOf(i + 1))) { // if the cell still shows a number, it's free
+                free.add(i + 1); // add the cell number (1–9) to the list of free cells
             }
         }
-        return free.get(rng.nextInt(free.size()));
+        return free.get(rng.nextInt(free.size())); // pick a random index in the free list and return the corresponding cell number
     }
 
     // --- STATE UPDATE ---

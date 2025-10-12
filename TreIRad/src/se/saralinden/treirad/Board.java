@@ -45,7 +45,7 @@ public class Board {
     // --- GAME LOGIC HELPERS ---
     //Return true if mark ("X" or "O") has a winning line on the board
     public boolean isWin(String[] b, String mark) {
-        int[][] lines = { // an array of arrays, each with 3 cell indices that form a winning line
+        int[][] lines = { // an array of arrays (2D array) representing all possible winning lines
                 {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // rows
                 {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // columns
                 {0, 4, 8}, {2, 4, 6}           // diagonals

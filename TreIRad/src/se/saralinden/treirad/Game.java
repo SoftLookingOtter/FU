@@ -43,9 +43,11 @@ public class Game {
         System.out.println();
         System.out.println("🦝 Raccoon Referee: Welcome to Tic-Tac-Toe!");
         System.out.println("Marks: " + uiIcon("X") + " vs " + uiIcon("O") + ". Choose cells 1–9. Type 'q' to quit.");
+        System.out.println();
 
         // 2) Choose mode
         vsBot = askYesNo("Should " + uiIcon("O") + " be a bot? (y/n): ");
+        System.out.println();
         System.out.println(
                 vsBot
                         ? "Mode: Player vs Bot (" + uiIcon("O") + ")"
@@ -54,6 +56,7 @@ public class Game {
 
         // 3) Ask names depending on mode (needed for scoreboard and prompts)
         nameX = askNameForMark("X");
+
         if (vsBot) {
             nameO = "Raccoon Bot"; // keep logic X/O; display name for O
         } else {
@@ -82,6 +85,7 @@ public class Game {
     private String askNameForMark(String mark) {
         String icon = uiIcon(mark);
         while (true) {
+            System.out.println();
             System.out.print("Hi " + icon + "! What's your name? ");
             String s = in.nextLine().trim();
             checkQuit(s);
@@ -162,6 +166,7 @@ public class Game {
             if (s.equals("y") || s.equals("yes")) return true;
             if (s.equals("n") || s.equals("no")) return false;
             System.out.println("Please answer y/yes or n/no.");
+            System.out.println();
         }
     }
 }

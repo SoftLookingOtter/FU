@@ -1,4 +1,4 @@
-package se.saralinden.treirad;
+package se.saralinden.treirad; // package declaration
 
  /**
  * Stateless board utilities (no data here).

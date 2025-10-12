@@ -1,4 +1,4 @@
-package se.saralinden.treirad;
+package se.saralinden.treirad; // package declaration
 
 /**
  * Represents a player (human or bot).

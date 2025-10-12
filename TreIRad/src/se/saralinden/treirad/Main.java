@@ -1,4 +1,4 @@
-package se.saralinden.treirad;
+package se.saralinden.treirad; // package declaration
 
 /**
  * Entry point. Creates and starts the Game.

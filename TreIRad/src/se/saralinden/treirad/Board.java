@@ -1,5 +1,12 @@
 package se.saralinden.treirad;
 
+ /**
+ * Stateless board utilities (no data here).
+ * - print(String[] boardData): render the 3x3 grid.
+ * - isWin(String[] b, String mark): check three-in-a-row for X/O.
+ * - isDraw(String[] b): check if no free cells remain.
+ */
+
 public class Board {
 
     // ANSI colors

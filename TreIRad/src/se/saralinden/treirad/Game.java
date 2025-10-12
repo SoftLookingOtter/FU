@@ -2,7 +2,14 @@ package se.saralinden.treirad;
 
 import java.util.Scanner;
 
-// Game.java
+/**
+ * Game loop.
+ * - Owns the game state (grid data) and manages turn order.
+ * - Reads validated input and updates the board.
+ * - Uses Board to render and to check win/draw.
+ * Helpers in this class: readCell1to9(), readFreeCell1to9(), placeMark().
+ */
+
 public class Game {
 
     private final Scanner in = new Scanner(System.in); // private final = safe reuse

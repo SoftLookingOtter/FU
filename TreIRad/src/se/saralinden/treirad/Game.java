@@ -12,8 +12,11 @@ import java.util.Scanner;
 
 public class Game {
 
+    // ANSI colors
+    private static final String RED = "\u001B[31m";
+    private static final String BLUE = "\u001B[34m";
+    private static final String RESET = "\u001B[0m";
     private final Scanner in = new Scanner(System.in); // final to prevent reassignment to another Scanner
-
     private String nameX, nameO; // player names for X and O
     private int winsX = 0, winsO = 0, draws = 0;
 
@@ -26,10 +29,15 @@ public class Game {
         }
     }
 
+    // Map logic mark -> display icon (keep logic X/O)
+    private String uiIcon(String mark) {
+        return "X".equals(mark) ? (RED + "✖" + RESET) : (BLUE + "○" + RESET);
+    }
+
     public void start() {
         System.out.println();
         System.out.println("🦝 Raccoon Referee: Welcome to Tic-Tac-Toe!");
-        System.out.println("Marks: X vs O. Choose cells 1–9. Type 'q' to quit at any time.");
+        System.out.println("Marks: " + uiIcon("X") + " vs " + uiIcon("O") + ". Choose cells 1–9. Type 'q' to quit.");
 
         // Ask player names once
         nameX = askNameForMark("X");
@@ -45,8 +53,8 @@ public class Game {
 
             // --- Scoreboard ---
             System.out.println("\nScoreboard:");
-            System.out.println(nameX + " (X): " + winsX);
-            System.out.println(nameO + " (O): " + winsO);
+            System.out.println(nameX + " (" + uiIcon("X") + "): " + winsX);
+            System.out.println(nameO + " (" + uiIcon("O") + "): " + winsO);
             System.out.println("Draws: " + draws);
 
             System.out.println("Starting a new game...\n");
@@ -73,14 +81,15 @@ public class Game {
         while (true) {
             board.print(gameGrid); // render current grid
             String currentName = "X".equals(current) ? nameX : nameO; // get current player's name
-            System.out.println(currentName + " (" + current + "), your move — pick a cell (1–9, q = quit):");
+            String ui = uiIcon(current); // get current player's icon
+            System.out.println(currentName + " (" + ui + "), your move — pick a cell (1–9, q=quit):");
 
             int cell = readFreeCell1to9(gameGrid, currentName); // read a valid, free cell by using helpers below
             placeMark(gameGrid, cell, current); // place the mark on the grid by using helper below
 
             if (board.isWin(gameGrid, current)) {
                 board.print(gameGrid);
-                System.out.println("🎉 " + currentName + " (" + current + ") wins!");
+                System.out.println("🎉 " + currentName + " (" + ui + ") wins!");
                 return current; // return "X" or "O"
             }
 
